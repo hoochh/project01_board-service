@@ -1,4 +1,0 @@
-package com.lyk.boardservice.repository;
-
-public interface ArticleCommentRepository {
-}
