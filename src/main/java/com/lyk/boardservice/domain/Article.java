@@ -23,9 +23,8 @@ import java.util.Set;
         @Index(columnList = "createdAt"),
         @Index(columnList = "createdBy")
 })
-@EntityListeners(AuditingEntityListener.class)
 @Entity // Entity 매핑
-public class Article {
+public class Article extends AuditingFields {
     @Id // Primary Key 매핑
     @GeneratedValue(strategy = GenerationType.IDENTITY) // MySQL의 Autoincrease 는 Identity
     private Long id;
@@ -48,18 +47,6 @@ public class Article {
     private final Set<ArticleComment> articleComments = new LinkedHashSet<>(); // 곧바로 생성자 호출하여 메모리에 할당
 
     // 자동 생성, 수정 되어야 하는 부분(생성일시, 수정일시, 생성자, 수정자 등)에 대하여 Auditing 기능 적용 필요
-    @CreatedDate
-    @Column(nullable = false)
-    private LocalDateTime createdAt;    // 생성일시
-    @CreatedBy
-    @Column(nullable = false, length = 100)
-    private String createdBy;   // 생성자
-    @LastModifiedDate
-    @Column(nullable = false)
-    private LocalDateTime modifiedAt;   // 수정일시
-    @LastModifiedBy
-    @Column(nullable = false, length = 100)
-    private String modifiedBy;  //수정자
 
     protected Article() {}
 
