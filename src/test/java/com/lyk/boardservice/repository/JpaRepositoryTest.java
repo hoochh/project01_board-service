@@ -2,6 +2,7 @@ package com.lyk.boardservice.repository;
 
 import com.lyk.boardservice.config.JpaConfig;
 import com.lyk.boardservice.domain.Article;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ class JpaRepositoryTest {
 
 
         // When
-        Article savedArticle = articleRepository.save(Article.of("new article", "new article", "#spring"));
+        articleRepository.save(Article.of("new article", "new article", "#spring"));
 
         // Then
         assertThat(articleRepository.count())
