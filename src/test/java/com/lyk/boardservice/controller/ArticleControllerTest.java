@@ -23,7 +23,6 @@ class ArticleControllerTest {
         this.mvc = mvc;
     }
 
-    @Disabled("구현 중")
     @DisplayName("[view][GET] 게시글 리스트 (게시판) 페이지 - 정상 호출")
     @Test
     public void givenNothing_whenRequestingNothingArticlesView_thenReturnsArticlesView() throws Exception {
@@ -32,7 +31,7 @@ class ArticleControllerTest {
         // When & then
         mvc.perform(get("/articles"))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.TEXT_HTML))
+                .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
                 .andExpect(view().name("articles/index")) // 뷰 이름 검사 테스트 추가
                 .andExpect(MockMvcResultMatchers.model().attributeExists("articles")); // model에 name에 해당하는 key 값으로 전달된 attribute가 존재하는지 체크
     }
