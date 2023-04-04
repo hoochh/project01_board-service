@@ -36,7 +36,7 @@ class ArticleControllerTest {
                 .andExpect(MockMvcResultMatchers.model().attributeExists("articles")); // model에 name에 해당하는 key 값으로 전달된 attribute가 존재하는지 체크
     }
 
-    @Disabled("구현 중")
+    //@Disabled("구현 중")
     @DisplayName("[view][GET] 게시글 상세 페이지 - 정상 호출")
     @Test
     public void givenNothing_whenRequestingNothingArticleView_thenReturnsArticleView() throws Exception {
