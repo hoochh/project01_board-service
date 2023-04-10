@@ -1,6 +1,5 @@
 package com.lyk.boardservice.service;
 
-import com.lyk.boardservice.domain.ArticleComment;
 import com.lyk.boardservice.dto.ArticleCommentDto;
 import com.lyk.boardservice.repository.ArticleCommentRepository;
 import com.lyk.boardservice.repository.ArticleRepository;
@@ -19,11 +18,17 @@ public class ArticleCommentService {
     private final ArticleCommentRepository articleCommentRepository;
 
     @Transactional(readOnly = true)
-    public List<ArticleCommentDto> searchArticleComment(Long articleId) {
+    public List<ArticleCommentDto> searchArticleComments(Long articleId) {
         return List.of();
     }
 
     public void saveArticleComment(ArticleCommentDto dto) {
+    }
+
+    public void updateArticleComment(ArticleCommentDto dto) {
+    }
+
+    public void deleteArticleComment(Long articleCommentId) {
     }
 
 }
