@@ -1,22 +1,16 @@
 package com.lyk.boardservice.domain;
 
-import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
+import javax.persistence.*;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Getter // Getter 생성
-@ToString   //
+@ToString(callSuper = true)
 @Table(indexes = {  // 테이블 매핑, 단일 컬럼에 대한 인덱스 생성
         @Index(columnList = "title"),
         @Index(columnList = "hashtag"),
@@ -30,6 +24,10 @@ public class Article extends AuditingFields {
     private Long id;
 
     @Setter
+    @ManyToOne(optional = false)
+    private UserAccount userAccount;
+
+    @Setter
     @Column(nullable = false)
     private String title;   // 제목
     @Setter
@@ -41,7 +39,7 @@ public class Article extends AuditingFields {
 
     // ArticleComment에 대하여 @OneToMany 연관관계 매핑을 해준다
     // Article에 연관되어 있는 ArticleComments는 중복을 허용하지 않으며 컬렉션으로 구성되어 있게 된다
-    @OrderBy("id")
+    @OrderBy("createdAt DESC")
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     @ToString.Exclude // Article과 Article 모두에 존재하는 @String 애노테이션에 의해 순환 참조 발생하여 메모리 이슈 발생할 수 있음 -> Exclude 처리 해준다
     private final Set<ArticleComment> articleComments = new LinkedHashSet<>(); // 곧바로 생성자 호출하여 메모리에 할당
@@ -50,14 +48,15 @@ public class Article extends AuditingFields {
 
     protected Article() {}
 
-    private Article(String title, String content, String hashtag) {
+    private Article(UserAccount userAccount, String title, String content, String hashtag) {
+        this.userAccount = userAccount;
         this.title = title;
         this.content = content;
         this.hashtag = hashtag;
     }
 
-    public static Article of(String title, String content, String hashtag) {
-        return new Article(title, content, hashtag);
+    public static Article of(UserAccount userAccount, String title, String content, String hashtag) {
+        return new Article(userAccount, title, content, hashtag);
     }
 
     // 해당 객체를 리스트에 담아 컬랙션으로 사용하고자 할 때

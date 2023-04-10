@@ -2,6 +2,7 @@ package com.lyk.boardservice.repository;
 
 import com.lyk.boardservice.config.JpaConfig;
 import com.lyk.boardservice.domain.Article;
+import com.lyk.boardservice.domain.UserAccount;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,12 +22,15 @@ class JpaRepositoryTest {
     // JUnit5과 최신 버전 Spring Boot 에서는 @Autowired 기능이 내제되어 있어 테스트에서도 생성자 주입 패턴으로 작성할 수 있다
     private final ArticleRepository articleRepository;
     private final ArticleCommentRepository articleCommentRepository;
+    private final UserAccountRepository userAccountRepository;
 
     public JpaRepositoryTest(
             @Autowired ArticleRepository articleRepository,
-            @Autowired ArticleCommentRepository articleCommentRepository) {
+            @Autowired ArticleCommentRepository articleCommentRepository,
+            @Autowired UserAccountRepository userAccountRepository) {
         this.articleRepository = articleRepository;
         this.articleCommentRepository = articleCommentRepository;
+        this.userAccountRepository = userAccountRepository;
     }
 
     @DisplayName("select 테스트")
@@ -48,10 +52,13 @@ class JpaRepositoryTest {
     void givenTestData_whenInserting_thenWorksFine() {
         // Given
         long previousCount = articleRepository.count();
+        UserAccount userAccount = userAccountRepository.save(UserAccount.of("uno", "pw", null, null, null));
+        Article article = Article.of(userAccount, "new article", "new content", "#spring");
 
 
         // When
-        articleRepository.save(Article.of("new article", "new article", "#spring"));
+        //articleRepository.save(Article.of("new article", "new article", "#spring"));
+        articleRepository.save(article);
 
         // Then
         assertThat(articleRepository.count())
