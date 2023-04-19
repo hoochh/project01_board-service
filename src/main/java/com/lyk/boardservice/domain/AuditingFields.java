@@ -1,6 +1,9 @@
 package com.lyk.boardservice.domain;
 
 import javax.persistence.*;
+
+import lombok.Getter;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -11,9 +14,11 @@ import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
 
 import java.time.LocalDateTime;
 
+@Getter
+@ToString
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
-public class AuditingFields {
+public abstract class AuditingFields {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @CreatedDate
     @Column(nullable = false, updatable = false)
